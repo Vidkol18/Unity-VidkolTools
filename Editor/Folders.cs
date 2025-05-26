@@ -12,5 +12,11 @@ namespace Vidkol {
                 }
             }
         }
+
+        public static void CreateDirectories(Directory<string, string[]> directories) {
+            foreach (var kvp in directories) {
+                CreateDirectories(kvp.Key, kvp.Value);
+            }
+        }
     }
 }

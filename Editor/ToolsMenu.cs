@@ -3,14 +3,19 @@ using static UnityEditor.AssetDatabase;
 
 namespace Vidkol {
     public static class ToolsMenu {
-        private static string[] _mainDir = {
-            "Data", "Materials", "Models", "Prefabs", "Scenes", "Scripts", "Settings", "Shaders", "Textures",
-        }; 
-        
+
+        private static readonly Dictionary<string, string[]> _folders = new() {
+            { "__Project", new[] { "Animations", "Editor", "Fonts", "Materials", "Models", "Settings", "Shaders", "Textures" } },
+            { "__Project/Audio", new[] { "Music", "SFX" }},
+            { "__Project/Prefabs", new[] { "Items", "NPCs", "Objects", "UI", "World", "Player" } },
+            { "__Project/Data", new[] { "Scriptables" }}
+            { "__Project/Scenes", new[] { "Levels" } },
+            { "__Project/Scripts", new[] { "Managers", "Networking", "NPC", "Player", "UI", "Utils", "World" } }
+        };
 
         [MenuItem("Tools/Setup/Create Default Folders")]
         public static void CreateDefaultFolders() {
-            Folders.CreateDirectories("_Project", _mainDir);
+            Folders.CreateDirectories(_folders);
             Refresh();
         }
 
