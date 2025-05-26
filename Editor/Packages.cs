@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Vidkol {
     public static class Packages {
 
-        public static async Task ReplacePackagesFromGist(string gistId, string user = "Vidkol") {
+        public static async Task ReplacePackagesFromGist(string gistId, string user = "Vidkol18") {
             var manifestUrl = GetGistUrl(gistId, user);
             var contents = await GetContents(manifestUrl);
             ReplacePackageFile(contents);

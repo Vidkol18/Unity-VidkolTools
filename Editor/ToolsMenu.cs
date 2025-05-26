@@ -14,6 +14,9 @@ namespace Vidkol {
             Refresh();
         }
 
+        [MenuItem("Tools/Setup/Load New Manifest")]
+        public static async void LoadNewManifest() => await Packages.ReplacePackagesFromGist("99692c9c984ceb2a670f80a2aafd544b");
+
         // Install Unity Packages
         [MenuItem("Tools/Setup/Packages/ProBuilder")]
         public static void InstallProBuilder() {
