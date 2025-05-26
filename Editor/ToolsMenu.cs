@@ -8,7 +8,7 @@ namespace Vidkol {
             { "__Project", new[] { "Animations", "Editor", "Fonts", "Materials", "Models", "Settings", "Shaders", "Textures" } },
             { "__Project/Audio", new[] { "Music", "SFX" }},
             { "__Project/Prefabs", new[] { "Items", "NPCs", "Objects", "UI", "World", "Player" } },
-            { "__Project/Data", new[] { "Scriptables" }}
+            { "__Project/Data", new[] { "Scriptables" }},
             { "__Project/Scenes", new[] { "Levels" } },
             { "__Project/Scripts", new[] { "Managers", "Networking", "NPC", "Player", "UI", "Utils", "World" } }
         };
