@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 using static UnityEditor.AssetDatabase;
 
 namespace Vidkol {
@@ -7,9 +9,9 @@ namespace Vidkol {
 
         private static readonly Dictionary<string, string[]> _folders = new() {
             { "__Project", new[] { "Animations", "Editor", "Fonts", "Materials", "Models", "Settings", "Shaders", "Textures" } },
-            { "__Project/Audio", new[] { "Music", "SFX" }},
+            { "__Project/Audio", new[] { "Music", "SFX" } },
             { "__Project/Prefabs", new[] { "Items", "NPCs", "Objects", "UI", "World", "Player" } },
-            { "__Project/Data", new[] { "Scriptables" }},
+            { "__Project/Data", new[] { "Scriptables" } },
             { "__Project/Scenes", new[] { "Levels" } },
             { "__Project/Scripts", new[] { "Managers", "Networking", "NPC", "Player", "UI", "Utils", "World" } }
         };
@@ -21,7 +23,13 @@ namespace Vidkol {
         }
 
         [MenuItem("Tools/Setup/Load New Manifest")]
-        public static async void LoadNewManifest() => await Packages.ReplacePackagesFromGist("99692c9c984ceb2a670f80a2aafd544b");
+        public static async void LoadNewManifest() {
+            try {
+                await Packages.ReplacePackagesFromGist("99692c9c984ceb2a670f80a2aafd544b");
+            } catch (Exception e) {
+                Debug.LogError($"Failed to load new manifest: {e.Message}");
+            }
+        }
 
         // Install Unity Packages
         [MenuItem("Tools/Setup/Packages/ProBuilder")]
@@ -42,6 +50,16 @@ namespace Vidkol {
         [MenuItem("Tools/Setup/Packages/Cinemachine")]
         public static void InstallCinemachine() {
             Packages.InstallUnityPackage("cinemachine");
+        }
+
+        [MenuItem("Tools/Setup/Generate Default Scripts")]
+        public static async void GenerateDefaultScripts() {
+            try {
+                const string scriptsPath = "__Project/Scripts";
+                await Packages.CreateScriptFromGist("49ecb149d3bd429ea1923ae5ff5798e8", scriptsPath + "/Utils", "SingletonUtilities");
+            } catch (Exception e) {
+                Debug.LogError($"Failed to generate default scripts: {e.Message}");
+            }
         }
     }
 }

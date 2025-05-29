@@ -13,6 +13,12 @@ namespace Vidkol {
             ReplacePackageFile(contents);
         }
         
+        public static async Task CreateScriptFromGist(string gistId, string filePath, string fileName, string user = "Vidkol18") {
+            var scriptUrl = GetGistUrl(gistId, user);
+            var contents = await GetContents(scriptUrl);
+            CreateScripFileFromContents(contents, filePath, fileName);
+        }
+        
         private static string GetGistUrl(string gistId, string user) =>
             $"https://gist.githubusercontent.com/{user}/{gistId}/raw";
 
@@ -27,6 +33,19 @@ namespace Vidkol {
 
         private static void ReplacePackageFile(string contents) {
             var existingPath = Path.Combine(Application.dataPath, "Packages", "manifest.json");
+            if (File.Exists(existingPath)) {
+                File.WriteAllText(existingPath, contents);
+                Debug.Log("Package manifest replaced successfully.");
+            } else {
+                Debug.LogError($"Manifest file not found at {existingPath}");
+            }
+        }
+        
+        private static void CreateScripFileFromContents(string contents, string filePath, string fileName) {
+            var fullPath = Path.Combine(Application.dataPath, filePath, fileName + ".cs");
+            Directory.CreateDirectory(Path.GetDirectoryName(fullPath) ?? string.Empty);
+            File.WriteAllText(fullPath, contents);
+            Debug.Log($"File created at {fullPath}");
         }
 
         public static void InstallUnityPackage(string packageName) {

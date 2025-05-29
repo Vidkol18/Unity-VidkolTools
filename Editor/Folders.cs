@@ -8,9 +8,7 @@ namespace Vidkol {
             var fullPath = Path.Combine(Application.dataPath, root);
             foreach (var dir in directories) {
                 var path = Path.Combine(fullPath, dir);
-                if (!Directory.Exists(path)) {
-                    Directory.CreateDirectory(path);
-                }
+                Directory.CreateDirectory(path);
             }
         }
 
