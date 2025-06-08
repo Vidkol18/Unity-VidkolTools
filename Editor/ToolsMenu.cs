@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -6,25 +7,42 @@ using static UnityEditor.AssetDatabase;
 
 namespace Vidkol {
     public static class ToolsMenu {
-
-        private static readonly Dictionary<string, string[]> _folders = new() {
-            { "__Project", new[] { "Animations", "Editor", "Fonts", "Materials", "Models", "Settings", "Shaders", "Textures" } },
-            { "__Project/Audio", new[] { "Music", "SFX" } },
-            { "__Project/Prefabs", new[] { "Items", "NPCs", "Objects", "UI", "World", "Player" } },
-            { "__Project/Data", new[] { "Scriptables" } },
-            { "__Project/Scenes", new[] { "Levels" } },
-            { "__Project/Scripts", new[] { "Managers", "Networking", "NPC", "Player", "UI", "Utils", "World" } }
+        private static readonly Dictionary<string, string[]> Folders = new() {
+            { "__Project", new[] { "Core", "Game", "UI", "Scenes", "ScriptableObjects", "Audio", "Visuals", "DevTools", "Editor", "Localization", "Prefabs", "Themes", "Docs" } },
+            { "__Project/Core", new[] { "Systems", "Utils", "BaseClasses", "Constants" } },
+            { "__Project/Game", new[] { "Characters", "Managers", "Mechanics", "Data" } },
+            { "__Project/UI", new[] { "Components", "Screens", "Transitions", "Bindings" } },
+            { "__Project/Scenes", new[] { "Main", "Test" } },
+            { "__Project/ScriptableObjects", new[] { "Settings", "Characters", "Audio", "Themes" } },
+            { "__Project/Audio", new[] { "Music", "SFX", "Mixers" } },
+            { "__Project/Visuals", new[] { "Sprites", "Animations", "VFX" } },
+            { "__Project/DevTools", new[] { "DebugUI", "Cheats", "Logging" } },
+            { "__Project/Editor", new[] { "Inspectors", "Windows", "PropertyDrawers" } },
+            { "__Project/Localization", new[] { "CSV", "System" } },
+            { "__Project/Prefabs", new[] { "Characters", "UI", "Environment" } },
+            { "__Project/Themes", new[] { "Colors", "Fonts" } },
+            { "__Project/Docs", new[] { "Readme", "Design" } }
+        };
+        
+        private static readonly Dictionary<string, (string filePath, string fileName, string? user)> Scripts = new() {
+            { "49ecb149d3bd429ea1923ae5ff5798e8", ("__Project/Core/BaseClasses", "SingletonUtilities.cs", null) },
+            
+            /* TODO, Create more gist for
+             Console - This is be for all the game Dev commands/cheats.
+             GameLogger - This is for the game logger, which will be used to log all the game events which will be saved to a file.
+             */
         };
 
         [MenuItem("Tools/Setup/Create Default Folders")]
         public static void CreateDefaultFolders() {
-            Folders.CreateDirectories(_folders);
+            Vidkol.Folders.CreateDirectories(Folders);
             Refresh();
         }
 
         [MenuItem("Tools/Setup/Load New Manifest")]
         public static async void LoadNewManifest() {
             try {
+                // Don't think this is necessary, but keeping it for reference
                 await Packages.ReplacePackagesFromGist("99692c9c984ceb2a670f80a2aafd544b");
             } catch (Exception e) {
                 Debug.LogError($"Failed to load new manifest: {e.Message}");
@@ -55,8 +73,7 @@ namespace Vidkol {
         [MenuItem("Tools/Setup/Generate Default Scripts")]
         public static async void GenerateDefaultScripts() {
             try {
-                const string scriptsPath = "__Project/Scripts";
-                await Packages.CreateScriptFromGist("49ecb149d3bd429ea1923ae5ff5798e8", scriptsPath + "/Utils", "SingletonUtilities");
+                await Packages.DownloadScriptsAsync(Scripts);
             } catch (Exception e) {
                 Debug.LogError($"Failed to generate default scripts: {e.Message}");
             }
