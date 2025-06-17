@@ -26,11 +26,7 @@ namespace Vidkol {
         
         private static readonly Dictionary<string, (string filePath, string fileName, string? user)> Scripts = new() {
             { "49ecb149d3bd429ea1923ae5ff5798e8", ("__Project/Core/BaseClasses", "SingletonUtilities.cs", null) },
-            
-            /* TODO, Create more gist for
-             Console - This is be for all the game Dev commands/cheats.
-             GameLogger - This is for the game logger, which will be used to log all the game events which will be saved to a file.
-             */
+            { "Vidkol18/UnityConsoleUI", ("__Project/DevTools", "Console", null) },
         };
 
         [MenuItem("Tools/Setup/Create Default Folders")]
